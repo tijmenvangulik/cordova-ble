@@ -253,7 +253,7 @@ public class BLE
 	{
 		if (mScanCallbackContext != null) {
 			BluetoothAdapter a = BluetoothAdapter.getDefaultAdapter();
-			a.stopLeScan(this);
+			if(a!= null) a.stopLeScan(this);
 			mScanCallbackContext = null;
 		}
 		if (mConnectedDevices != null) {
