@@ -1444,6 +1444,27 @@ public class BLE
 		public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState)
 		{
 			Log.i("@@@@@@", "@@@ onConnectionStateChange status: " + status + " newState: " + newState);
+            
+            //tgul also send a message when disconnected , this fixes problems with android 5.1
+			if (status==19 && newState==0) {
+			
+			
+				try
+				{
+					JSONObject result = new JSONObject();
+					result.put("deviceHandle", mHandle);
+					result.put("state", newState);
+					Log.i("@@@@@@", "@@@ connect disconnect");
+					keepCallback(mConnectContext, result);
+				}
+				catch(JSONException e)
+				{
+					Log.i("@@@@@@", "@@@ disconnect error: " + e);
+					e.printStackTrace();
+					mConnectContext.error("Disconnect error: " + e);
+					//assert(false);
+				}
+			}
 
 			if (status == BluetoothGatt.GATT_SUCCESS)
 			{
